@@ -1,3 +1,8 @@
+/* Copyright (c) 2013 Sean Stewart
+ *
+ * Decrypts content encrypted by the associated pelican plugin.
+ */
+
 (function () {
     var strip_padding = function (padded_content, padding_char) {
         var i;
