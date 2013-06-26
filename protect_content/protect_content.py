@@ -1,0 +1,55 @@
+"""
+Copyright (c) 2013 Sean Stewart
+
+Protect content
+-----------------
+
+A pelican plugin to encrypt content. 
+
+"""
+
+import base64
+import md5
+
+from Crypto import Random
+from Crypto.Cipher import AES
+
+from pelican import signals
+
+
+def encrypt(password, plaintext):
+    BLOCK_SIZE = 32
+    PADDING_CHAR = '^'
+
+    iv = Random.new().read(16)
+    
+    # key must be 32 bytes for AES-256
+    key = md5.new()
+    key.update(password)
+    cipher = AES.new(key.digest(), AES.MODE_CBC, iv)
+
+    # plaintext must be padded to be a multiple of BLOCK_SIZE
+    plaintext_padded = plaintext + (BLOCK_SIZE - len(plaintext) % BLOCK_SIZE) * PADDING_CHAR
+    ciphertext = cipher.encrypt(plaintext_padded)
+    
+    return (
+        base64.b64encode(iv),
+        base64.b64encode(ciphertext),
+        PADDING_CHAR
+    )
+
+
+def protect_content(instance):
+    if 'password' in instance.metadata:
+        # encrypt content
+        iv_b64, ciphertext_b64, padding_char = encrypt(instance.metadata['password'], 
+                                                       instance.content)
+        
+        # set new attributes for use in templates
+        setattr(instance, 'protected', True)
+        setattr(instance, 'encrypted_content', '%s;%s;%s' % (iv_b64, ciphertext_b64, 
+                                                             padding_char))
+
+
+def register():
+    signals.content_object_init.connect(protect_content)
