@@ -48,7 +48,7 @@ and replace it with,
     <form id="unlock-form">
         <label for="content-password">Password</label>
         <input type="password" id="content-password" placeholder="Password" />
-        <button type="button" id="unlock-content">Unlock</button>
+        <button type="button" id="unlock-content">Decrypt</button>
     </form>
     {% else %}
     {{ article.content }}
