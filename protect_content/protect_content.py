@@ -18,6 +18,12 @@ from pelican import signals
 
 
 def encrypt(password, plaintext):
+    """
+    Produces the ciphertext bundle of plaintext content.
+
+    password -- password for decrypting the content
+    plaintext -- bytestring of article content
+    """
     BLOCK_SIZE = 32
     PADDING_CHAR = '^'
 
@@ -43,7 +49,7 @@ def protect_content(instance):
     if 'password' in instance.metadata:
         # encrypt content
         iv_b64, ciphertext_b64, padding_char = encrypt(instance.metadata['password'], 
-                                                       instance.content)
+                                                       instance.content.encode('utf8'))
         
         # set new attributes for use in templates
         setattr(instance, 'protected', True)
