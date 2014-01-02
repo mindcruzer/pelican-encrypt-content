@@ -5,13 +5,15 @@ This plugin allows you to have password protected blog articles in [Pelican](htt
 articles are encrypted with AES-256 in Python using [PyCrypto](https://www.dlitz.net/software/pycrypto/), and 
 decrypted in the browser with [Crypto-JS](https://code.google.com/p/crypto-js/). 
 
-####Installation
+####Requirements
 
-First,
+This plugin requires PyCrypto.
 
     pip install pycrypto
 
-Then, copy `encrypt_content` to the root of your Pelican project (or somewhere that is accessible for importing), and merge the `theme` folder with the theme folder for your Pelican project. Next,
+####Installation
+
+Copy `encrypt_content` to the root of your Pelican project (or somewhere that is accessible for importing), and merge the `theme` folder with the theme folder for your Pelican project. Next,
 add the following to your `pelicanconf.py` file:
 
     PLUGINS = ['encrypt_content']
