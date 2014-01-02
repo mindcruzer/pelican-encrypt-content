@@ -11,65 +11,36 @@ First,
 
     pip install pycrypto
 
-Then, copy `/protect_content` to the root of your pelican folder (or somewhere that is accessible for importing). Next, 
-add the following to your Pelican settings file:
+Then, copy `/encrypt_content` to the root of your pelican folder (or somewhere that is accessible for importing). Next,
+add the following to your `pelicanconf.py` file:
 
-    PLUGINS = ['protect_content']
-    
-That takes care of encrypting the content. When content is encrypted, two properties are added to the `Content` 
-instance: `protected`, which is a flag that states whether or not the content is encrypted, and `encrypted_content` 
-which contains the ciphertext bundle (iv, ciphertext, padding character).
+    PLUGINS = ['encrypt_content']
 
-The last thing on the agenda is to modify `index.html`, `article.html`, and `base.html` accordingly. For `index.html`, you basically 
-want to make sure that the article summary doesn't show up for protected content. Open up `theme/templates/index.html` in
+Then merge the `theme` folder, with the theme folder for your Pelican project.
+
+Lastly, you need to modify `index.html`, `article.html`, and `base.html` accordingly. For `index.html`, we
+don't want the summary to show up if the content is encrypted. Open up `theme/templates/index.html` in
 your Pelican project and find the following line:
 
     {{ article.summary }}
     
 and replace it with,
 
-    {% if article.protected %}
-    <i>This content is encrypted.</i>
-    {% else %}
-    {{ article.summary }}
-    {% endif %}
+    {% include "encrypt-content-summary.html" with context %}
 
 Then, open up `theme/templates/article.html` and find the following line:
-
+include
     {{ article.content }}
 
 and replace it with,
 
-    {% if article.protected %}
-    <div id="encrypted-content" style="display:none">{{ article.encrypted_content }}</div>
-    <div id="decrypted-content">
-        <h4><i>This content is encrypted.</i></h4>
-    </div>
-    <form id="unlock-form">
-        <label for="content-password">Password</label>
-        <input type="password" id="content-password" placeholder="Password" />
-        <button type="button" id="unlock-content">Decrypt</button>
-    </form>
-    {% else %}
-    {{ article.content }}
-    {% endif %}
+    {% include "encrypt-content-content.html" with context %}
 
-This should be straightforward. If the content is protected, output the ciphertext bundle instead of the 
-plaintext, then add a form for entering the password. 
+Last, but most importantly, the scripts that do the actual decryption. I've included these scripts in the repo under
+`theme/static/scripts/*`; you'll want to copy  to your theme folder. Next, you just need to include the script
+in `theme/templates/base.html` of your Pelican project. Add the following, just before the end of the `<body>` tag:
 
-Last, but most importantly, the scripts that do the actual decryption. I've included these scripts in the repo under 
-`theme/static/scripts/*`; you'll want to copy these to your theme folder. Next, you just need to include the scripts 
-in `theme/templates/base.html` of your Pelican project. Add them just before the end of the `<body>` tag, in the 
-following order:
-
-    <script type="text/javascript" src="{{ SITEURL }}/theme/scripts/md5.js"></script>
-    <script type="text/javascript" src="{{ SITEURL }}/theme/scripts/aes.js"></script>
-    <script type="text/javascript" src="{{ SITEURL }}/theme/scripts/pad-nopadding-min.js"></script>
-    <script type="text/javascript" src="{{ SITEURL }}/theme/scripts/protect_content.js"></script>
-    
-That or concat, minify and only add one file. If you can be bothered, it would be better if you
-threw these in their own template, say `protected_content.html` and then included it in `base.html` with 
-`{% include 'protected_content.html %}`, just to keep things tidy.
+    {% include "encrypt-content-scripts.html" with context %}
 
 ####Usage
 
@@ -78,9 +49,9 @@ This is the easy part. Inside your article source file, just add one more line o
     Title: ...
     Date: ...
     Tags: ...
-    Password: iamthepassword
-    
-BOOM! Encrypted articles.
+    Password: onefinepassword
+
+and carry on.
 
 ####Other Uses
 

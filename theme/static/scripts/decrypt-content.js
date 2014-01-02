@@ -5,10 +5,8 @@
 
 (function () {
     var strip_padding = function (padded_content, padding_char) {
-        var i;
-        
-        for (i = padded_content.length; i > 0; i--) {
-            if (padded_content[i - 1] !== padding_char) {
+        for (var i = padded_content.length; i > 0; i--) {
+            if (padded_content[i-1] !== padding_char) {
                 return padded_content.slice(0, i);
             }
         }
@@ -17,15 +15,14 @@
     var decrypt_content = function (password, iv_b64, ciphertext_b64, padding_char) {
         var key = CryptoJS.MD5(password),
             iv = CryptoJS.enc.Base64.parse(iv_b64),
-            ciphertext = CryptoJS.enc.Base64.parse(ciphertext_b64);
+            ciphertext = CryptoJS.enc.Base64.parse(ciphertext_b64),
+            bundle = {
+                key: key,
+                iv: iv,
+                ciphertext: ciphertext
+            };
 
-        var encrypted = {
-            key: key,
-            iv: iv,
-            ciphertext: ciphertext
-        };
-
-        var plaintext = CryptoJS.AES.decrypt(encrypted, key, {iv: iv, padding: CryptoJS.pad.NoPadding });
+        var plaintext = CryptoJS.AES.decrypt(bundle, key, {iv: iv, padding: CryptoJS.pad.NoPadding });
 
         try {
             return strip_padding(plaintext.toString(CryptoJS.enc.Utf8), padding_char);
@@ -37,15 +34,15 @@
     };
 
     var init_decryptor = function() {
-        var unlock_btn = document.getElementById('unlock-content');
+        var decrypt_btn = document.getElementById('decrypt-content');
         
-        if (unlock_btn) {
+        if (decrypt_btn) {
             var password_input = document.getElementById('content-password'),
                 encrypted_content = document.getElementById('encrypted-content'), 
                 decrypted_content = document.getElementById('decrypted-content'),
-                unlock_form = document.getElementById('unlock-form');
+                decrypt_form = document.getElementById('decrypt-form');
             
-            unlock_btn.addEventListener('click', function () {
+            decrypt_btn.addEventListener('click', function () {
                 var parts = encrypted_content.innerHTML.split(';');
 
                 var content = decrypt_content(
@@ -57,7 +54,7 @@
                 
                  if (content) {
                     decrypted_content.innerHTML = content;
-                    unlock_form.parentNode.removeChild(unlock_form);
+                    decrypt_form.parentNode.removeChild(decrypt_form);
                     encrypted_content.parentNode.removeChild(encrypted_content);
                  }
                  else {

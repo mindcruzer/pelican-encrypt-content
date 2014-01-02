@@ -1,11 +1,9 @@
 """
 Copyright (c) 2013 Sean Stewart
 
-Protect content
+Encrypt Content
 -----------------
-
-A pelican plugin to encrypt content. 
-
+A pelican plugin to encrypt post content.
 """
 
 import base64
@@ -22,7 +20,7 @@ def encrypt(password, plaintext):
     Produces the ciphertext bundle of plaintext content.
 
     password -- password for decrypting the content
-    plaintext -- bytestring of article content
+    plaintext -- bytestring of post content
     """
     BLOCK_SIZE = 32
     PADDING_CHAR = '^'

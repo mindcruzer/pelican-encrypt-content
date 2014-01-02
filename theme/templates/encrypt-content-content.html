@@ -1,0 +1,14 @@
+{% if article.protected %}
+<div id="encrypted-content" style="display:none">{{ article.encrypted_content }}</div>
+<div id="decrypted-content">
+    <h4><i>This content is encrypted.</i></h4>
+</div>
+<form id="decrypt-form">
+    <label for="content-password">Password</label>
+    <input type="password" id="content-password" placeholder="Password" />
+    <button type="button" id="decrypt-content">Decrypt</button>
+</form>
+{% else %}
+{{ article.content }}
+{% endif %}
+

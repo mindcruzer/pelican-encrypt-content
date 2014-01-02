@@ -1,0 +1,5 @@
+{% if article.protected %}
+<i>This content is encrypted.</i>
+{% else %}
+{{ article.summary }}
+{% endif %}
