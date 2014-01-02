@@ -1,4 +1,4 @@
-Protect Content in Pelican
+Encrypt Pelican Content
 ===============
 
 This plugin allows you to have password protected blog articles in [Pelican](http://docs.getpelican.com/en/3.2/). The 
@@ -11,34 +11,28 @@ First,
 
     pip install pycrypto
 
-Then, copy `/encrypt_content` to the root of your pelican folder (or somewhere that is accessible for importing). Next,
+Then, copy `encrypt_content` to the root of your Pelican project (or somewhere that is accessible for importing), and merge the `theme` folder with the theme folder for your Pelican project. Next,
 add the following to your `pelicanconf.py` file:
 
     PLUGINS = ['encrypt_content']
 
-Then merge the `theme` folder, with the theme folder for your Pelican project.
-
-Lastly, you need to modify `index.html`, `article.html`, and `base.html` accordingly. For `index.html`, we
-don't want the summary to show up if the content is encrypted. Open up `theme/templates/index.html` in
-your Pelican project and find the following line:
+Lastly, you need to modify your theme template files `index.html`, `article.html`, and `base.html` accoringly. Open up `index.html` and find the following line:
 
     {{ article.summary }}
     
-and replace it with,
+Replace it with:
 
     {% include "encrypt-content-summary.html" with context %}
 
-Then, open up `theme/templates/article.html` and find the following line:
-include
+Then, open up `article.html` and find the following line:
+
     {{ article.content }}
 
-and replace it with,
+Replace it with:
 
     {% include "encrypt-content-content.html" with context %}
 
-Last, but most importantly, the scripts that do the actual decryption. I've included these scripts in the repo under
-`theme/static/scripts/*`; you'll want to copy  to your theme folder. Next, you just need to include the script
-in `theme/templates/base.html` of your Pelican project. Add the following, just before the end of the `<body>` tag:
+Open `base.html` and add the following, just before the end of the `<body>` tag:
 
     {% include "encrypt-content-scripts.html" with context %}
 
