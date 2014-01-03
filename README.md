@@ -40,14 +40,12 @@ Open `base.html` and add the following, just before the end of the `<body>` tag:
 
 ####Usage
 
-This is the easy part. Inside your article source file, just add one more line of metadata:
+Inside your article source file, just add one more line of metadata:
 
     Title: ...
     Date: ...
     Tags: ...
     Password: onefinepassword
-
-and carry on.
 
 ####Other Uses
 
