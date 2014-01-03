@@ -60,7 +60,7 @@ Inside your article source file, just add the password of your choosing:
 
 ex.
 
-reStructuredText:
+######reStructuredText
 
     How To Teach Your Horse To Make You Breakfast 
     ##############
@@ -70,7 +70,7 @@ reStructuredText:
     :password: presidentoftheuniverse
 
 
-Markdown:
+######Markdown
 
     Title: How To Teach Your Horse To Make You Breakfast
     Date: 1983-04-22
