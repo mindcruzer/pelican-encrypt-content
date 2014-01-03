@@ -1,7 +1,7 @@
 Encrypt Pelican Content
 ===============
 
-This plugin allows you to have password protected blog articles in [Pelican](http://docs.getpelican.com/en/3.2/). The 
+This plugin allows you to have password protected blog articles in [Pelican](http://docs.getpelican.com/). The 
 articles are encrypted with AES-256 in Python using [PyCrypto](https://www.dlitz.net/software/pycrypto/), and 
 decrypted in the browser with [Crypto-JS](https://code.google.com/p/crypto-js/). 
 
