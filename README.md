@@ -9,43 +9,73 @@ decrypted in the browser with [Crypto-JS](https://code.google.com/p/crypto-js/).
 
 This plugin requires PyCrypto.
 
-    pip install pycrypto
+ex. 
+
+```shell
+pip install pycrypto
+```
 
 ####Installation
 
 Copy `encrypt_content` to the root of your Pelican project (or somewhere that is accessible for importing), and merge the `theme` folder with the theme folder for your Pelican project. Next,
 add the following to your `pelicanconf.py` file:
 
+```python
     PLUGINS = ['encrypt_content']
+```
 
 Lastly, you need to modify your theme template files `index.html`, `article.html`, and `base.html` accoringly. Open up `index.html` and find the following line:
 
-    {{ article.summary }}
-    
+```jinja
+{{ article.summary }}
+```
+
 Replace it with:
 
-    {% include "encrypt-content-summary.html" with context %}
+```jinja
+{% include "encrypt-content-summary.html" with context %}
+```
 
 Then, open up `article.html` and find the following line:
 
-    {{ article.content }}
+```jinja
+{{ article.content }}
+```
 
 Replace it with:
 
-    {% include "encrypt-content-content.html" with context %}
+```jinja
+{% include "encrypt-content-content.html" with context %}
+```
 
 Open `base.html` and add the following, just before the end of the `<body>` tag:
 
-    {% include "encrypt-content-scripts.html" with context %}
+```jinja
+{% include "encrypt-content-scripts.html" with context %}
+```
 
 ####Usage
 
-Inside your article source file, just add one more line of metadata:
+Inside your article source file, just add the password of your choosing:
 
-    Title: ...
-    Date: ...
-    Tags: ...
-    Password: onefinepassword
+ex.
+
+reStructuredText:
+
+    How To Teach Your Horse To Make You Breakfast 
+    ##############
+
+    :date: 1983-04-22
+    :tags: horses, food, omgnofuckingway
+    :password: presidentoftheuniverse
+
+
+Markdown:
+
+    Title: How To Teach Your Horse To Make You Breakfast
+    Date: 1983-04-22
+    Tags: horses, food, omgnofuckingway
+    Password: presidentoftheuniverse
 
 ####Other Uses
 
