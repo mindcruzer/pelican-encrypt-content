@@ -21,7 +21,7 @@ Copy `encrypt_content` to the root of your Pelican project (or somewhere that is
 add the following to your `pelicanconf.py` file:
 
 ```python
-    PLUGINS = ['encrypt_content']
+PLUGINS = ['encrypt_content']
 ```
 
 Lastly, you need to modify your theme template files `index.html`, `article.html`, and `base.html` accoringly. Open up `index.html` and find the following line:
