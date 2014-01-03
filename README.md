@@ -81,3 +81,7 @@ ex.
 
 This will technically encrypt pages as well, if you want, but I never really saw the point. If you feel so inclined, 
 you'll only need to modify `page.html` accordingly.
+
+####Also...
+
+I'm not a crypto expert, so don't depend on this to hide plans for assassinating emperors or anything. 
