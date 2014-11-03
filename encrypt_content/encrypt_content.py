@@ -45,14 +45,9 @@ def encrypt(password, plaintext):
 
 def protect_content(instance):
     if 'password' in instance.metadata:
-        # encrypt content
-        iv_b64, ciphertext_b64, padding_char = encrypt(instance.metadata['password'], 
-                                                       instance.content.encode('utf8'))
-        
         # set new attributes for use in templates
         setattr(instance, 'protected', True)
-        setattr(instance, 'encrypted_content', '%s;%s;%s' % (iv_b64, ciphertext_b64, 
-                                                             padding_char))
+        setattr(instance, 'encrypt', lambda content:"%s;%s;%s"%encrypt(instance.metadata['password'], content.encode('utf8')))
 
 
 def register():
