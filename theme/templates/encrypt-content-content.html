@@ -1,5 +1,5 @@
 {% if article.protected %}
-<div id="encrypted-content" style="display:none">{{ article.encrypted_content }}</div>
+<div id="encrypted-content" style="display:none">{{ article.encrypt(article.content) }}</div>
 <div id="decrypted-content">
     <h4><i>This content is encrypted.</i></h4>
 </div>
