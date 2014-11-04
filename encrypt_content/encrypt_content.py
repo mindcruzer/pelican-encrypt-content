@@ -47,7 +47,10 @@ def protect_content(instance):
     if 'password' in instance.metadata:
         # set new attributes for use in templates
         setattr(instance, 'protected', True)
-        setattr(instance, 'encrypt', lambda content:"%s;%s;%s"%encrypt(instance.metadata['password'], content.encode('utf8')))
+        setattr(instance, 'encrypt', lambda content:"%s;%s;%s" % encrypt(
+            instance.metadata['password'], 
+            content.encode('utf8')
+        ))
 
 
 def register():
