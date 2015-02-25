@@ -19,8 +19,13 @@ def encrypt(password, plaintext):
     """
     Produces the ciphertext bundle of plaintext content.
 
-    password -- password for decrypting the content
-    plaintext -- bytestring of post content
+    Args:
+        password: Password for decrypting the content
+        plaintext: Byte string of post content
+
+    Returns:
+        Three-tuple of iv, ciphertext and padding character. iv and ciphertext
+        are base64 encoded.
     """
     BLOCK_SIZE = 32
     PADDING_CHAR = '^'
@@ -44,10 +49,13 @@ def encrypt(password, plaintext):
 
 
 def protect_content(instance):
+    """
+    Called when the content object is initialized.
+    """
     if 'password' in instance.metadata:
         # set new attributes for use in templates
         setattr(instance, 'protected', True)
-        setattr(instance, 'encrypt', lambda content:"%s;%s;%s" % encrypt(
+        setattr(instance, 'encrypt', lambda content: "%s;%s;%s" % encrypt(
             instance.metadata['password'], 
             content.encode('utf8')
         ))
