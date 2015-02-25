@@ -12,7 +12,7 @@ decrypted in the browser with [Crypto-JS](https://code.google.com/p/crypto-js/).
 
 ####Installation
 
-Copy the `encrypt_content` folder to the root of your Pelican project (or somewhere that is accessible for importing), and merge the `theme` folder with the theme folder for your Pelican project. 
+Copy the `encrypt_content` folder to the root of your Pelican project (or somewhere that is accessible for importing), and merge the `theme` folder with the theme folder for your Pelican project (see [Using Themes](https://github.com/getpelican/pelican-themes#using-themes)). 
 
 Next, add the following to your `pelicanconf.py` file:
 
