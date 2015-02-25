@@ -1,4 +1,4 @@
-/* Copyright (c) 2013 Sean Stewart
+/* Copyright (c) 2015 Sean Stewart
  *
  * Decrypts content encrypted by the associated pelican plugin.
  */

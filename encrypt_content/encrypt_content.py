@@ -1,5 +1,5 @@
 """
-Copyright (c) 2013 Sean Stewart
+Copyright (c) 2015 Sean Stewart
 
 Encrypt Content
 -----------------
