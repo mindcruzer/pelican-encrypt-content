@@ -7,7 +7,7 @@ decrypted in the browser with [Crypto-JS](https://code.google.com/p/crypto-js/).
 
 ####Requirements
 
-- Pelican 3.6+ (has not been tested on earlier versions)
+- Pelican 3.6+
 - PyCrypto (`pip install pycrypto`)
 
 ####Installation
