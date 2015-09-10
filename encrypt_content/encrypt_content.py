@@ -82,7 +82,10 @@ def pelican_initialized(pelican_obj):
     """
     Reads settings.
     """
-    settings.update(pelican_obj.settings['ENCRYPT_CONTENT'])
+    try:
+        settings.update(pelican_obj.settings['ENCRYPT_CONTENT'])
+    except KeyError:
+        pass
 
 
 def pelican_all_generators_finalized(content_generators):
