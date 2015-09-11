@@ -43,7 +43,7 @@ ex.
 ######reStructuredText
 
     That one time I robbed a bank 
-    ##############
+    ###############################
 
     :date: 1983-04-22
     :tags: crime, banks, imabadass
