@@ -48,13 +48,13 @@ def _encrypt_text_aes(text, password):
     
     # key must be 32 bytes for AES-256
     key = hashlib.md5()
-    key.update(password)
+    key.update(password.encode('utf-8'))
     cipher = AES.new(key.digest(), AES.MODE_CBC, iv)
 
     # plaintext must be padded to be a multiple of BLOCK_SIZE
-    plaintext_padded = text + (BLOCK_SIZE - len(text) % BLOCK_SIZE) * PADDING_CHAR
+    plaintext_padded = text + ((BLOCK_SIZE - len(text) % BLOCK_SIZE) * PADDING_CHAR).encode('utf-8')
     ciphertext = cipher.encrypt(plaintext_padded)
-    
+
     return (
         base64.b64encode(iv),
         base64.b64encode(ciphertext),
@@ -67,9 +67,13 @@ def _encrypt_content(content):
     Replaces page or article content with decrypt form.
     """
     ciphertext_bundle = _encrypt_text_aes(content._content.encode('utf8'), content.password)
+    a = ciphertext_bundle[0].decode('utf-8')
+    b = ciphertext_bundle[1].decode('utf-8')
+    c = ciphertext_bundle[2]
+
     decrypt_form = Template(DECRYPT_FORM_TPL).render({
         'summary': settings['summary'],
-        'ciphertext_bundle': ';'.join(ciphertext_bundle),
+        'ciphertext_bundle': ';'.join([a,b,c]),
         'js_libraries': JS_LIBRARIES
     })
 
