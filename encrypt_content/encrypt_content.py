@@ -15,6 +15,7 @@ from Crypto.Cipher import AES
 from jinja2 import Template
 
 from pelican import signals, generators
+from pelican.utils import pelican_open
 
 JS_LIBRARIES = [
     '//cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core.js',
@@ -28,8 +29,8 @@ JS_LIBRARIES = [
 PLUGIN_DIR = os.path.dirname(os.path.realpath(__file__))
 DECRYPT_FORM_TPL_PATH = os.path.join(PLUGIN_DIR, 'decrypt-form.tpl.html')
 
-with open(DECRYPT_FORM_TPL_PATH, 'r') as template_file:
-    DECRYPT_FORM_TPL = template_file.read()
+with pelican_open(DECRYPT_FORM_TPL_PATH) as template:
+    DECRYPT_FORM_TPL = template
 
 settings = {
     'title_prefix': '',
@@ -39,7 +40,7 @@ settings = {
 
 def _encrypt_text_aes(text, password):
     """
-    Encrypts text with AES-256.
+    Encrypts text with AES-256. 
     """
     BLOCK_SIZE = 32
     PADDING_CHAR = '^'
@@ -48,12 +49,12 @@ def _encrypt_text_aes(text, password):
     
     # key must be 32 bytes for AES-256
     key = hashlib.md5()
-    key.update(password)
+    key.update(password.encode('utf-8'))
     cipher = AES.new(key.digest(), AES.MODE_CBC, iv)
 
     # plaintext must be padded to be a multiple of BLOCK_SIZE
     plaintext_padded = text + (BLOCK_SIZE - len(text) % BLOCK_SIZE) * PADDING_CHAR
-    ciphertext = cipher.encrypt(plaintext_padded)
+    ciphertext = cipher.encrypt(plaintext_padded.encode('utf-8'))
     
     return (
         base64.b64encode(iv),
@@ -66,7 +67,7 @@ def _encrypt_content(content):
     """
     Replaces page or article content with decrypt form.
     """
-    ciphertext_bundle = _encrypt_text_aes(content._content.encode('utf8'), content.password)
+    ciphertext_bundle = _encrypt_text_aes(content._content, content.password)
     decrypt_form = Template(DECRYPT_FORM_TPL).render({
         'summary': settings['summary'],
         'ciphertext_bundle': ';'.join(ciphertext_bundle),
