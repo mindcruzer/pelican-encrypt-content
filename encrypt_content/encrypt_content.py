@@ -43,18 +43,20 @@ def _encrypt_text_aes(text, password):
     Encrypts text with AES-256. 
     """
     BLOCK_SIZE = 32
-    PADDING_CHAR = '^'
+    PADDING_CHAR = b'^'
 
     iv = Random.new().read(16)
-    
+
     # key must be 32 bytes for AES-256
     key = hashlib.md5()
     key.update(password.encode('utf-8'))
     cipher = AES.new(key.digest(), AES.MODE_CBC, iv)
 
+    plaintext = text.encode('utf-8')
+    
     # plaintext must be padded to be a multiple of BLOCK_SIZE
-    plaintext_padded = text + (BLOCK_SIZE - len(text) % BLOCK_SIZE) * PADDING_CHAR
-    ciphertext = cipher.encrypt(plaintext_padded.encode('utf-8'))
+    plaintext_padded = plaintext + (BLOCK_SIZE - len(plaintext) % BLOCK_SIZE) * PADDING_CHAR
+    ciphertext = cipher.encrypt(plaintext_padded)
     
     return (
         base64.b64encode(iv),
@@ -68,9 +70,12 @@ def _encrypt_content(content):
     Replaces page or article content with decrypt form.
     """
     ciphertext_bundle = _encrypt_text_aes(content._content, content.password)
+
     decrypt_form = Template(DECRYPT_FORM_TPL).render({
         'summary': settings['summary'],
-        'ciphertext_bundle': ';'.join(ciphertext_bundle),
+        # this benign decoding is necessary before writing to the template, 
+        # otherwise our output string will be wrapped with b''
+        'ciphertext_bundle': b';'.join(ciphertext_bundle).decode('ascii'),
         'js_libraries': JS_LIBRARIES
     })
 
