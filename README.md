@@ -3,7 +3,8 @@ Encrypt Pelican Content
 
 This plugin allows you to have password protected articles and pages in [Pelican](http://docs.getpelican.com/). The 
 content is encrypted with AES-256 in Python using [PyCrypto](https://www.dlitz.net/software/pycrypto/), and 
-decrypted in the browser with [Crypto-JS](https://code.google.com/p/crypto-js/). 
+decrypted in the browser with [Crypto-JS](https://code.google.com/p/crypto-js/). It has been tested in Python 2.7 
+and Python 3.4.
 
 ####Requirements
 
@@ -57,10 +58,6 @@ ex.
     Tags: crime, banks, imabadass
     Password: correcthorsebatterystaple
 
-
-####Python 3 Support
-
-I haven't tested this with Python 3 because I'm lazy, but the Python portion of the plugin is not long or complicated. If you happen to notice any problems with Python 3 and fix them, please submit a pull request.
 
 ####Earlier versions of Pelican
 
