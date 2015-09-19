@@ -3,7 +3,7 @@ Copyright (c) 2015 Sean Stewart
 
 Encrypt Content
 -----------------
-A pelican plugin to encrypt content.
+A pelican plugin to password protect content.
 
 """
 import os
@@ -38,7 +38,16 @@ settings = {
 }
 
 
-def _encrypt_text_aes(text, password):
+def hash_md5(text):
+    """
+    Creates an md5 hash from text. 
+    """
+    key = hashlib.md5()
+    key.update(text.encode('utf-8'))
+    return key.digest()
+
+
+def encrypt_text_aes(text, password):
     """
     Encrypts text with AES-256. 
     """
@@ -46,11 +55,9 @@ def _encrypt_text_aes(text, password):
     PADDING_CHAR = b'^'
 
     iv = Random.new().read(16)
-
-    # key must be 32 bytes for AES-256
-    key = hashlib.md5()
-    key.update(password.encode('utf-8'))
-    cipher = AES.new(key.digest(), AES.MODE_CBC, iv)
+    
+    # key must be 32 bytes for AES-256, so the password is hashed with md5 first
+    cipher = AES.new(hash_md5(password), AES.MODE_CBC, iv)
 
     plaintext = text.encode('utf-8')
     
@@ -65,16 +72,16 @@ def _encrypt_text_aes(text, password):
     )
 
 
-def _encrypt_content(content):
+def encrypt_content(content):
     """
     Replaces page or article content with decrypt form.
     """
-    ciphertext_bundle = _encrypt_text_aes(content._content, content.password)
+    ciphertext_bundle = encrypt_text_aes(content._content, content.password)
 
     decrypt_form = Template(DECRYPT_FORM_TPL).render({
         'summary': settings['summary'],
         # this benign decoding is necessary before writing to the template, 
-        # otherwise our output string will be wrapped with b''
+        # otherwise the output string will be wrapped with b''
         'ciphertext_bundle': b';'.join(ciphertext_bundle).decode('ascii'),
         'js_libraries': JS_LIBRARIES
     })
@@ -102,11 +109,11 @@ def pelican_all_generators_finalized(content_generators):
         if isinstance(generator, generators.ArticlesGenerator):
             for article in generator.articles + generator.translations:
                 if hasattr(article, 'password'):
-                    _encrypt_content(article)
+                    encrypt_content(article)
         if isinstance(generator, generators.PagesGenerator):
             for page in generator.pages:
                 if 'password' in page.metadata:
-                    _encrypt_content(page)
+                    encrypt_content(page)
 
 
 def register():
