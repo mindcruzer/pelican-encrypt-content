@@ -6,12 +6,12 @@ content is encrypted with AES-256 in Python using [PyCrypto](https://www.dlitz.n
 decrypted in the browser with [Crypto-JS](https://code.google.com/p/crypto-js/). It has been tested in Python 2.7 
 and Python 3.4.
 
-####Requirements
+#### Requirements
 
 - Pelican 3.6+
 - PyCrypto (`pip install pycrypto`)
 
-####Installation
+#### Installation
 
 Copy the `encrypt_content` folder to the root of your Pelican project (or somewhere that is accessible for importing). 
 
@@ -21,7 +21,7 @@ Next, add the following to your `pelicanconf.py` file:
 PLUGINS = ['encrypt_content']
 ```
 
-####Settings
+#### Settings
 
 You can set a summary, as well as a title prefix to use for all encrypted articles. The default for both is a 
 blank string.
@@ -35,13 +35,13 @@ ENCRYPT_CONTENT = {
 }
 ```
 
-####Usage
+#### Usage
 
 Inside your source file, just add the password of your choosing:
 
 ex.
 
-######reStructuredText
+###### reStructuredText
 
     That one time I robbed a bank 
     ###############################
@@ -51,7 +51,7 @@ ex.
     :password: correcthorsebatterystaple
 
 
-######Markdown
+###### Markdown
 
     Title: That one time I robbed a bank
     Date: 1983-04-22
@@ -59,6 +59,6 @@ ex.
     Password: correcthorsebatterystaple
 
 
-####Earlier versions of Pelican
+#### Earlier versions of Pelican
 
 There is an older, crappier version of this plugin in the `pelican-3.3` branch. Go nuts.
