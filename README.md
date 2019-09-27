@@ -9,7 +9,7 @@ and Python 3.4.
 #### Requirements
 
 - Pelican 3.6+
-- PyCrypto (`pip install pycrypto`)
+- PyCrypto (`pip install -r requirements.txt`)
 
 #### Installation
 
