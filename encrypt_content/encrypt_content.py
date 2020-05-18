@@ -44,7 +44,7 @@ def hash_md5(text):
     """
     key = hashlib.md5()
     key.update(text.encode('utf-8'))
-    return key.digest()
+    return key
 
 
 def encrypt_text_aes(text, password):
@@ -57,7 +57,7 @@ def encrypt_text_aes(text, password):
     iv = Random.new().read(16)
     
     # key must be 32 bytes for AES-256, so the password is hashed with md5 first
-    cipher = AES.new(hash_md5(password), AES.MODE_CBC, iv)
+    cipher = AES.new(hash_md5(password).digest(), AES.MODE_CBC, iv)
 
     plaintext = text.encode('utf-8')
     
