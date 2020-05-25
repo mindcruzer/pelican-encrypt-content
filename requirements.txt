@@ -1,2 +1,1 @@
 pycryptodome==3.9.7
-pelican==4.2.0
