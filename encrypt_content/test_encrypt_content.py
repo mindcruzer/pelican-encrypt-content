@@ -15,8 +15,8 @@ class TestEncryptContent(unittest.TestCase):
         """
         Verify that md5 hashes are being computed correctly.
         """
-        md5_bytes = hash_md5('test')
-        self.assertEqual(md5_bytes.encode('hex'), '098f6bcd4621d373cade4e832627b4f6')
+        md5_bytes = hash_md5('test').hexdigest()
+        self.assertEqual(md5_bytes, '098f6bcd4621d373cade4e832627b4f6')
 
     def test_encrypt_text_aes(self):
         """
@@ -30,10 +30,12 @@ class TestEncryptContent(unittest.TestCase):
         
         iv_b64, ciphertext_b64, padding_char = encrypt_text_aes(text, password)
         
-        cipher = AES.new(hash_md5(password), AES.MODE_CBC, base64.b64decode(iv_b64))
+        cipher = AES.new(key=hash_md5(password).digest(),
+                         mode=AES.MODE_CBC,
+                         iv=base64.b64decode(iv_b64))
         plaintext = cipher.decrypt(base64.b64decode(ciphertext_b64))
 
-        self.assertEqual(plaintext.decode('utf-8').rstrip(padding_char), text)
+        self.assertEqual(plaintext.decode('utf-8').rstrip(str(padding_char)), text)
         
 
 if __name__ == "__main__":
