@@ -19,6 +19,16 @@ Verify installation by running `pelican-plugins`. You should see something like:
   | pelican.plugins.encrypt_content
 ```
 
+#### Alternative method
+
+Copy the `pelican/plugins` folder from this repository into the top level of your pelican project, then add the 
+following to `pelicanconf.py`:
+
+```
+PLUGIN_PATHS = ['plugins']
+PLUGINS = ['encrypt_content']
+```
+
 ### Settings
 
 You can set a summary, as well as a title prefix to use for all encrypted articles. The default for both is a 
