@@ -5,25 +5,31 @@ This plugin allows you to have password protected articles and pages in [Pelican
 content is encrypted with AES-256 in Python using [PyCryptodome](https://www.pycryptodome.org/), and 
 decrypted in the browser with [Crypto-JS](https://code.google.com/p/crypto-js/).
 
-#### Has been tested with
+### Installation
 
-- Python 3.8
-- Pelican 4.2.0
-- PyCryptodome 3.9.7 (a PyCrypto fork)
+Refer to [How to use plugins](https://docs.getpelican.com/en/latest/plugins.html#how-to-use-plugins) in the Pelican docs.
 
-Earlier versions of these might work, but no gaurantees.
+#### Quick summary
+Pelican 4.5 switched to namespace packages for plugins. Run `python setup.py install` and Pelican will auto-detect the plugin. 
 
-#### Installation
+Verify installation by running `pelican-plugins`. You should see something like:
 
-Copy the `encrypt_content` folder to the root of your Pelican project (or somewhere that is accessible for importing). 
+```
+-> Plugins found:
+  | pelican.plugins.encrypt_content
+```
 
-Next, add the following to your `pelicanconf.py` file:
+#### Alternative method
 
-```python
+Copy the `pelican/plugins` folder from this repository into the top level of your pelican project, then add the 
+following to `pelicanconf.py`:
+
+```
+PLUGIN_PATHS = ['plugins']
 PLUGINS = ['encrypt_content']
 ```
 
-#### Settings
+### Settings
 
 You can set a summary, as well as a title prefix to use for all encrypted articles. The default for both is a 
 blank string.
@@ -37,13 +43,13 @@ ENCRYPT_CONTENT = {
 }
 ```
 
-#### Usage
+### Usage
 
 Inside your source file, just add the password of your choosing:
 
 ex.
 
-###### reStructuredText
+##### reStructuredText
 
     That one time I robbed a bank 
     ###############################
@@ -53,7 +59,7 @@ ex.
     :password: correcthorsebatterystaple
 
 
-###### Markdown
+##### Markdown
 
     Title: That one time I robbed a bank
     Date: 1983-04-22

@@ -10,7 +10,7 @@
 </form>
 
 {% for library in js_libraries %}
-    <script type="text/javascript" src="{{ library }}"></script>
+<script type="text/javascript" src="{{ library }}"></script>
 {% endfor %}
 
 <script type="text/javascript">
@@ -20,7 +20,7 @@
              * Strips the padding character from decrypted content.
              */
             for (var i = padded_content.length; i > 0; i--) {
-                if (padded_content[i-1] !== padding_char) {
+                if (padded_content[i - 1] !== padding_char) {
                     return padded_content.slice(0, i);
                 }
             }
@@ -39,7 +39,7 @@
                     ciphertext: ciphertext
                 };
 
-            var plaintext = CryptoJS.AES.decrypt(bundle, key, {iv: iv, padding: CryptoJS.pad.NoPadding});
+            var plaintext = CryptoJS.AES.decrypt(bundle, key, { iv: iv, padding: CryptoJS.pad.NoPadding });
 
             try {
                 return strip_padding(plaintext.toString(CryptoJS.enc.Utf8), padding_char);
@@ -50,7 +50,7 @@
             }
         };
 
-        var init_decryptor = function() {
+        var init_decryptor = function () {
             var decrypt_btn = document.getElementById('pec-decrypt-content'),
                 password_input = document.getElementById('pec-content-password'),
                 encrypted_content = document.getElementById('pec-encrypted-content'),
