@@ -50,14 +50,15 @@
             }
         };
 
-        var init_decryptor = function () {
+
+        document.addEventListener('DOMContentLoaded', function () {
             var decrypt_btn = document.getElementById('pec-decrypt-content'),
                 password_input = document.getElementById('pec-content-password'),
                 encrypted_content = document.getElementById('pec-encrypted-content'),
                 decrypted_content = document.getElementById('pec-decrypted-content'),
                 decrypt_form = document.getElementById('pec-decrypt-form');
 
-            decrypt_btn.addEventListener('click', function () {
+            var decrypt_document = function (event) {
                 // grab the ciphertext bundle
                 var parts = encrypted_content.innerHTML.split(';');
 
@@ -81,9 +82,12 @@
                     // ¯\_(ツ)_/¯
                     password_input.value = '';
                 }
-            });
-        };
-
-        document.addEventListener('DOMContentLoaded', init_decryptor);
+                event.preventDefault();
+                return false;
+            }
+            
+            decrypt_btn.addEventListener('click', decrypt_document);
+            decrypt_form.addEventListener('submit', decrypt_document);
+        });
     })();
 </script>
