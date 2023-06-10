@@ -103,7 +103,8 @@ def pelican_initialized(pelican_obj):
 
 def pelican_all_generators_finalized(content_generators):
     """
-    Finds pages and articles/article.drafts marked with a password and processes them.
+    Finds pages, articles/article.drafts/hidden articles marked with a password 
+    and processes them.
     """
     for generator in content_generators:
         if isinstance(generator, generators.ArticlesGenerator):
