@@ -113,6 +113,9 @@ def pelican_all_generators_finalized(content_generators):
             for draft in generator.drafts + generator.drafts_translations:
                 if hasattr(draft, 'password'):
                     encrypt_content(draft)
+            for hidden in generator.hidden_articles + generator.hidden_translations:
+                if hasattr(hidden, 'password'):
+                    encrypt_content(hidden)
         if isinstance(generator, generators.PagesGenerator):
             for page in generator.pages:
                 if 'password' in page.metadata:
