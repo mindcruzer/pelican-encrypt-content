@@ -82,12 +82,25 @@
                     // ¯\_(ツ)_/¯
                     password_input.value = '';
                 }
-                event.preventDefault();
+                if (event) event.preventDefault();
                 return false;
             }
-            
+
             decrypt_btn.addEventListener('click', decrypt_document);
             decrypt_form.addEventListener('submit', decrypt_document);
+
+            var search_params = (new URLSearchParams(window.location.search));
+            var search_pw = search_params.get("pw")
+            if (search_pw != null) {
+                password_input.value = search_pw
+                decrypt_btn.click()
+
+                {% if consume_search %}
+                search_params.delete("pw")
+                window.history.replaceState(null, null, search_params.toString() || "?");
+                {% endif %}
+            }
+
         });
     })();
 </script>
