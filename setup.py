@@ -13,10 +13,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/mindcruzer/pelican-encrypt-content",
     packages=find_namespace_packages(include=['pelican.*']),
-    data_files=[
-        ("", ["LICENSE.txt"]),
-        ("pelican/plugins/encrypt_content", ["pelican/plugins/encrypt_content/decrypt-form.tpl.html"])
-    ],
+    package_data={"": ["*.html"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: MIT License",
